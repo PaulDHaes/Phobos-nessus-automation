@@ -2,6 +2,7 @@ import os
 import argparse
 import xml.etree.ElementTree as ET
 import time
+import subprocess
 
 
 def run_nmap(ip_list, port, plugin_name):
@@ -180,19 +181,19 @@ def main():
                     elif output_type_input =="multiple":
                         output_type=f" >> {plugin_name.replace(' ', '_')}_multiple.txt"
                 #os.system(f"echo '\n' {output_type_input}")
-                time.sleep(1000)
+                time.sleep(1)
                 if user_input == "yes":
                     cmd = f"{command} {output_type}"
                     unique_commands[(plugin_name, port)] = cmd
                     print("\n" + cmd + "\n")
-                    os.system(cmd)
+                    subprocess.run(cmd, shell=True)
                     executed_commands.add((plugin_name, port))
                 elif user_input == "all":
                     same_plugin_other_port = plugin_name
                     cmd = f"{command} {output_type}"
                     unique_commands[(plugin_name, port)] = cmd
                     print("\n" + cmd + "\n")
-                    os.system(cmd)
+                    subprocess.run(cmd, shell=True)
                     executed_commands.add((plugin_name, port))
                     #break
                 elif user_input == "no":
